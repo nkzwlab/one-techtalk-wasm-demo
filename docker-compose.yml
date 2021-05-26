@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+    wasm-rs:
+        build: ./wasm-rs
+        volumes:
+            - ./wasm-rs:/app
