@@ -11,7 +11,7 @@ pub fn demo_main(n: u64) -> u64 {
         x = next_prime(&x, &ps);
     }
 
-    return x;
+    return *ps.last().unwrap();
 }
 
 

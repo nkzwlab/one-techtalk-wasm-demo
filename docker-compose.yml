@@ -9,6 +9,7 @@ services:
     serv:
         build: ./serv
         volumes:
+            - ./serv/public:/app
             - ./wasm-rs/pkg:/app/wasm
         ports:
             - "8080:8080"

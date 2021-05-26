@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Template</title>
+  <meta name="description" content="template">
+
+</head>
+
+<body>
+    <p>hello, world</p>
+    <script type="module">
+        import init, {demo_main} from "./wasm/wasm_rs.js";
+        init()
+            .then(() => {
+                const x = demo_main(BigInt(114514));
+                console.log(`result: ${x}`);
+            })
+    </script>
+</body>
+</html>
