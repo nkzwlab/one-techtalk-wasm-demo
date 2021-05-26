@@ -4,19 +4,22 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Template</title>
+  <title>wasm demo</title>
   <meta name="description" content="template">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
 <body>
-    <p>hello, world</p>
+    <p>wasm result: <code id="wasm-out" style="font-family: Courier, monospace">computing...</code></p>
     <script type="module">
         import init, {demo_main} from "./wasm/wasm_rs.js";
         init()
             .then(() => {
-                const x = demo_main(BigInt(114514));
-                console.log(`result: ${x}`);
+                const n = BigInt(114514);
+                const p = demo_main(n);
+                let out = document.getElementById('wasm-out');
+                out.innerText = `${p}`;
             })
     </script>
 </body>
