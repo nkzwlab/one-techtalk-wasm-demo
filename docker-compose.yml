@@ -4,4 +4,11 @@ services:
     wasm-rs:
         build: ./wasm-rs
         volumes:
-            - ./wasm-rs:/app
+            - ./wasm-rs:/root
+
+    serv:
+        build: ./serv
+        volumes:
+            - ./wasm-rs/pkg:/app/wasm
+        ports:
+            - "8080:8080"
