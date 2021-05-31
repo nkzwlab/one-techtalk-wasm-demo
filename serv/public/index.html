@@ -12,15 +12,33 @@
 
 <body>
     <p>wasm result: <code id="wasm-out" style="font-family: Courier, monospace">computing...</code></p>
+    <p>js result: <code id="js-out" style="font-family: Courier, monospace">computing...</code></p>
     <script type="module">
-        import init, {demo_main} from "./wasm/wasm_rs.js";
+        import init, {demo_main as wasm_demo_main} from "./wasm/wasm_rs.js";
+
+        const n = BigInt(1000000);
+
+        // wasm version
         init()
             .then(() => {
-                const n = BigInt(114514);
-                const p = demo_main(n);
+                const wasmStart = performance.now();
+                console.log("called wasm");
+                const p = wasm_demo_main(n);
                 let out = document.getElementById('wasm-out');
+                const wasmEnd = performance.now();
                 out.innerText = `${p}`;
+                console.log(`wasm elapsed time: ${wasmEnd - wasmStart} ms`)
             })
+
+
+        // js version
+        const jsStart = performance.now();
+        import {main as js_main} from "./index.js";
+        const p = js_main(n);
+        let out = document.getElementById('js-out');
+        out.innerText = `${p}`;
+        const jsEnd = performance.now();
+        console.log(`js elapsed time: ${jsEnd - jsStart} ms`)
     </script>
 </body>
 </html>
