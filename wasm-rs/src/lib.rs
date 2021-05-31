@@ -1,10 +1,23 @@
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen(module = "/src/imports.js")]
+extern {
+    #[wasm_bindgen]
+    pub fn log(s: &str);
+    #[wasm_bindgen]
+    pub fn now() -> f64;
+}
+
 #[wasm_bindgen]
 pub fn demo_main(n: u64) -> u64 {
+    let start = now();
     let mut gen = PrimeGenerator::new();
 
-    gen.nearest_prime(n)
+    let res = gen.nearest_prime(n);
+    let end = now();
+    log(&format!("wasm elapsed time: {} ms", end - start));
+
+    return res;
 }
 
 struct PrimeGenerator {
@@ -23,13 +36,13 @@ impl PrimeGenerator {
     }
 
     pub fn nearest_prime(&mut self, n: u64) -> u64 {
-        while self.last <= n {
+        while self.last < n {
             self.next();
         }
 
         let idx = self.primes.binary_search(&n).unwrap_or_else(|i| i - 1);
 
-        self.primes[idx] as u64
+        self.primes[idx]
     }
 
     fn is_prime(&self, x: u64) -> bool {

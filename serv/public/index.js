@@ -1,78 +1,34 @@
-export function main(n) {
-    console.log("called main");
-    const gen = new PrimeGenerator();
+import init, { demo_main as wasm_main } from "./wasm/wasm_rs.js";
+import { main as js_main } from "./js/main.js";
 
-    return gen.nearestPrime(n);
+const n = BigInt(500000);
+
+async function main() {
+    await run_wasm();
+
+    const jsStart = performance.now();
+    run_js();
+    const jsEnd = performance.now();
+    console.log(`js elapsed time: ${jsEnd - jsStart} ms`)
+}
+
+// wasm version
+async function run_wasm() {
+    await init()
+        .then(() => {
+            console.log("called wasm");
+            const p = wasm_main(n);
+            let out = document.getElementById('wasm-out');
+            out.innerText = `${p}`;
+        })
+}
+
+// js version
+function run_js() {
+    const p = js_main(n);
+    let out = document.getElementById('js-out');
+    out.innerText = `${p}`;
 }
 
 
-
-
-class PrimeGenerator {
-    constructor() {
-        this.primes = [2, 3];
-        this.last = 3;
-    }
-
-    next() {
-        let x = this.last;
-
-        while (!this.isPrime(x)) {
-            x += 2;
-        }
-
-        this.last = x;
-        this.primes.push(x);
-
-        return x;
-    }
-
-    nearestPrime(n) {
-        while (this.last <= n) {
-            this.next();
-        }
-
-        const idx = this.binSearch(n);
-
-        return this.primes[idx];
-    }
-
-    isPrime(x) {
-        for (let p of this.primes) {
-            if (x % p == 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    binSearch(x) {
-        let size = this.primes.length;
-        let l = 0;
-        let r = size;
-
-        let count = 10;
-
-        while (l < r && count > 0) {
-            const m = l + Math.floor(size / 2);
-            const p = this.primes[m];
-
-            console.log(l, m, r, size);
-            if (p < x) {
-                l = m + 1;
-            }
-            else if (x < p) {
-                r = m;
-            }
-            else {
-                return m;
-            }
-
-            size = r - l;
-            count -= 1;
-        }
-
-        return l - 1;
-    }
-}
+main();
