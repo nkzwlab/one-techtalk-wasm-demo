@@ -4,8 +4,13 @@ import { main as js_main } from "./js/main.js";
 const n = BigInt(500000);
 
 async function main() {
+    console.info("starting wasm...");
+    const wasmStart = performance.now();
     await run_wasm();
+    const wasmEnd = performance.now();
+    console.log(`wasm elapsed time: ${wasmEnd - wasmStart} ms`)
 
+    console.info("starting js...");
     const jsStart = performance.now();
     run_js();
     const jsEnd = performance.now();
@@ -16,7 +21,6 @@ async function main() {
 async function run_wasm() {
     await init()
         .then(() => {
-            console.log("called wasm");
             const p = wasm_main(n);
             let out = document.getElementById('wasm-out');
             out.innerText = `${p}`;

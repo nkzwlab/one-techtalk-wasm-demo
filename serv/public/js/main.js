@@ -1,5 +1,4 @@
 export function main(n) {
-    console.log("called main");
     const gen = new PrimeGenerator();
 
     return gen.nearestPrime(n);

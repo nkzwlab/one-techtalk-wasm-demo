@@ -15,7 +15,7 @@ pub fn demo_main(n: u64) -> u64 {
 
     let res = gen.nearest_prime(n);
     let end = now();
-    log(&format!("wasm elapsed time: {} ms", end - start));
+    log(&format!("elapsed time: {} ms", end - start));
 
     return res;
 }
