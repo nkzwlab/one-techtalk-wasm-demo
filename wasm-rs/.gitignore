@@ -2,3 +2,4 @@
 Cargo.lock
 
 .cache
+.bash_history
