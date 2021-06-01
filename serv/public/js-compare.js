@@ -1,13 +1,13 @@
 import { main as class_main } from "./js/main.js";
 import { main as procedure_main } from "./js/procedure.js";
 
-const n = BigInt(500000);
+const n = BigInt(200000);
 
 async function main() {
-    console.info("starting class...");
+    log("starting class...");
     run(class_main, 'class-out', 'class');
 
-    console.info("starting procedure...");
+    log("starting procedure...");
     run(procedure_main, 'procedure-out', 'procedure');
 }
 
@@ -28,7 +28,12 @@ function run(f, out, name) {
     let outElem = document.getElementById(out);
     outElem.innerText = `${p}`;
     const end = performance.now();
-    console.log(`[from ${name}] ${name} elapsed time: ${end - start} ms`)
+    log(`[from ${name}] ${name} elapsed time: ${end - start} ms`)
+}
+
+let logElem = document.getElementById("log");
+function log(s) {
+    logElem.innerText += '\n' + s;
 }
 
 

@@ -1,7 +1,7 @@
 import init, { demo_main as wasm_main } from "./wasm/wasm_rs.js";
 import { main as js_main } from "./js/main.js";
 
-const n = BigInt(500000);
+const n = BigInt(200000);
 
 async function main() {
     log("starting wasm...");
