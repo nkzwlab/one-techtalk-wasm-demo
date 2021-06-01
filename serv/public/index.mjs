@@ -4,21 +4,21 @@ import { main as js_main } from "./js/main.js";
 const n = BigInt(500000);
 
 async function main() {
-    log("starting wasm...");
+    console.info("starting wasm...");
     const wasmStart = performance.now();
-    await runWasm();
+    await run_wasm();
     const wasmEnd = performance.now();
-    log(`wasm elapsed time: ${wasmEnd - wasmStart} ms`)
+    console.log(`wasm elapsed time: ${wasmEnd - wasmStart} ms`)
 
-    log("starting js...");
+    console.info("starting js...");
     const jsStart = performance.now();
-    runJs();
+    run_js();
     const jsEnd = performance.now();
-    log(`js elapsed time: ${jsEnd - jsStart} ms`)
+    console.log(`js elapsed time: ${jsEnd - jsStart} ms`)
 }
 
 // wasm version
-async function runWasm() {
+async function run_wasm() {
     await init()
         .then(() => {
             const p = wasm_main(n);
@@ -28,19 +28,10 @@ async function runWasm() {
 }
 
 // js version
-function runJs() {
-    const jsStart = performance.now();
+function run_js() {
     const p = js_main(n);
     let out = document.getElementById('js-out');
     out.innerText = `${p}`;
-    const jsEnd = performance.now();
-    log(`[from js] elapsed time: ${jsEnd - jsStart} ms`)
-}
-
-
-let logElem = document.getElementById("log");
-function log(s) {
-    logElem.innerText += '\n' + s;
 }
 
 
